@@ -26,16 +26,14 @@ namespace Assignment
             driver.Navigate().GoToUrl("http://cafetownsend-angular-rails.herokuapp.com");
         }
 
-         [Test]
-         public void OpenLoginPage()
-          {
+        [Test]
+        public void OpenLoginPage()
+        {
             WebDriverWait DriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             DriverWait.Until(driver => driver.FindElement(By.Id("login-form")));
             IWebElement ElementLoginForm = driver.FindElement(By.Id("login-form"));
             Assert.AreEqual("loginForm", ElementLoginForm.GetAttribute("name"));
-                     
-            //TODO: username and password
-          }
+        }
         
         [Test]
         public void LoginSuccessful()

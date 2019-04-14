@@ -21,9 +21,12 @@ namespace Assignment
         string LAST_NAME = "/html/body/div/div/div/form/fieldset/label[2]/input";
         string START_DATE = "/html/body/div/div/div/form/fieldset/label[3]/input";
         string EMAIL = "/html/body/div/div/div/form/fieldset/label[4]/input";
+
         string CREATE_BUTTON = "//ul[@id=\"sub-nav\"]/li[1]/a[@id=\"bAdd\"]";
         string EDIT_BUTTON = "//ul[@id=\"sub-nav\"]/li[2]/a[@id=\"bEdit\"]";
         string DELETE_BUTTON = "//ul[@id=\"sub-nav\"]/li[3]/a[@id=\"bDelete\"]";
+
+        string UPDATE_BUTTON = "/html/body/div/div/div/form/fieldset/div/button[1]";
 
         [SetUp]
         public void Initialise()
@@ -89,7 +92,7 @@ namespace Assignment
 
             //Login
             driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/button")).Click();
-            Console.WriteLine("Login Successful");
+            
             //Explicitly Wait for the page to load
             WebDriverWait DriverWaitCreate = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             DriverWaitCreate.Until(driver => driver.FindElement(By.XPath(CREATE_BUTTON)));
@@ -123,7 +126,7 @@ namespace Assignment
 
             //Login
             driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/button")).Click();
-            Console.WriteLine("Login Successful");
+            
             //Explicitly Wait for the page to load
             WebDriverWait DriverWaitCreate = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             DriverWaitCreate.Until(driver => driver.FindElement(By.XPath(CREATE_BUTTON)));
@@ -213,7 +216,7 @@ namespace Assignment
 
             //Login
             driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/button")).Click();
-            Console.WriteLine("Login Successful");
+            
             //Explicitly Wait for the page to load
             WebDriverWait DriverWaitCreate = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             DriverWaitCreate.Until(driver => driver.FindElement(By.XPath(CREATE_BUTTON)));
@@ -235,6 +238,41 @@ namespace Assignment
             //Explicitly wait for navigating to employee page
             DriverWaitCreate.Until(driver => driver.FindElement(By.XPath(CREATE_BUTTON)));
 
+            Assert.IsTrue(driver.FindElement(By.XPath(DELETE_BUTTON)).GetAttribute("class").Contains("disabled"));
+
+            DriverWaitNew.Until(driver => driver.FindElement(By.XPath("//*[@id=\"employee-list\"]/li[1]")));
+
+            var ulElement = driver.FindElement(By.XPath("//*[@id=\"employee-list\"]"));
+            var liElements = ulElement.FindElements(By.TagName("li"));
+            foreach (var li in liElements)
+            {
+                if (li.Text == "Tony Stark")
+                {
+                    li.Click();
+                    driver.FindElement(By.XPath(EDIT_BUTTON)).Click();
+                    driver.FindElement(By.XPath(FIRST_NAME)).Clear();
+                    driver.FindElement(By.XPath(FIRST_NAME)).SendKeys("Thor");
+                    driver.FindElement(By.XPath(LAST_NAME)).Clear();
+                    driver.FindElement(By.XPath(LAST_NAME)).SendKeys("Mjolnir");
+                    driver.FindElement(By.XPath(UPDATE_BUTTON)).Click();
+                    break;
+                }
+            }
+
+            //Explicitly wait for navigating to employee page
+            DriverWaitNew.Until(driver => driver.FindElement(By.XPath(CREATE_BUTTON)));
+
+            ulElement = driver.FindElement(By.XPath("//*[@id=\"employee-list\"]"));
+            liElements = ulElement.FindElements(By.TagName("li"));
+            foreach (var li in liElements)
+            {
+                if (li.Text == "Thor Mjolnir")
+                {
+                    Assert.IsTrue(li.Text == "Thor Mjolnir");
+                    break;
+                }
+            }
+            
         }
 
         [Test]
@@ -253,7 +291,7 @@ namespace Assignment
 
             //Login
             driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/button")).Click();
-            Console.WriteLine("Login Successful");
+            
             //Explicitly Wait for the page to load
             WebDriverWait DriverWaitCreate = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             DriverWaitCreate.Until(driver => driver.FindElement(By.XPath(CREATE_BUTTON)));

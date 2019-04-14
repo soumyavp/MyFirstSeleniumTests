@@ -14,7 +14,11 @@ namespace Assignment
     public class LoginTests
     {
         IWebDriver driver = null;
-        
+
+        string USERNAME = "//*[@id=\"login-form\"]/fieldset/label[1]/input";
+        string PASSWORD = "//*[@id=\"login-form\"]/fieldset/label[2]/input";
+        string LOGIN_BUTTON = "//*[@id=\"login-form\"]/fieldset/button";
+
         [SetUp]
         public void Initialise()
         {
@@ -40,14 +44,14 @@ namespace Assignment
             WebDriverWait DriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             DriverWait.Until(driver => driver.FindElement(By.Id("login-form")));
             //Enter the username and password
-            IWebElement ElementUserName = driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/label[1]/input"));
-            IWebElement ElementPassword = driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/label[2]/input"));
+            IWebElement ElementUserName = driver.FindElement(By.XPath(USERNAME));
+            IWebElement ElementPassword = driver.FindElement(By.XPath(PASSWORD));
 
             ElementUserName.SendKeys("Luke");
             ElementPassword.SendKeys("Skywalker");
 
             //Login
-            driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/button")).Click();
+            driver.FindElement(By.XPath(LOGIN_BUTTON)).Click();
 
             //Assert that Login is successful
              //Wait for the page to load
@@ -66,14 +70,14 @@ namespace Assignment
             WebDriverWait DriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             DriverWait.Until(driver => driver.FindElement(By.Id("login-form")));
             //Enter the username and password
-            IWebElement ElementUserName = driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/label[1]/input"));
-            IWebElement ElementPassword = driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/label[2]/input"));
+            IWebElement ElementUserName = driver.FindElement(By.XPath(USERNAME));
+            IWebElement ElementPassword = driver.FindElement(By.XPath(PASSWORD));
 
             ElementUserName.SendKeys("admin");
             ElementPassword.SendKeys("admin");
 
             //Login
-            driver.FindElement(By.XPath("//*[@id=\"login-form\"]/fieldset/button")).Click();
+            driver.FindElement(By.XPath(LOGIN_BUTTON)).Click();
 
             //Assert that Login is unsuccessful
             Assert.IsTrue(ElementUserName.Displayed);
